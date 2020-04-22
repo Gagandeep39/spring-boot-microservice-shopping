@@ -8,6 +8,8 @@
 package com.gagan.shoppingloginservice.controller;
 
 
+import javax.management.RuntimeErrorException;
+
 import com.gagan.shoppingloginservice.model.Customer;
 import com.gagan.shoppingloginservice.model.User;
 import com.gagan.shoppingloginservice.service.CustomerService;
@@ -37,6 +39,8 @@ public class LoginController {
     @PostMapping("/login")
     public User validateUser(@RequestBody User user){
         Customer customer = service.validatCustomer(user);
+        if(customer==null)
+            throw new RuntimeException("Invalid Username Password");
         return customer;
     }
 
