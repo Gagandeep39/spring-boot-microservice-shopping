@@ -18,3 +18,9 @@ POST http://localhost:3002/login
 	"username": "gagandeep",
 	"password": "12345"
 }
+Error Response 
+{
+    "status": 400,
+    "message": "Invalid Username Password",
+    "timeStamp": 1587574212202
+}
