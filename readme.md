@@ -25,3 +25,8 @@ Error Response
     "message": "Invalid Username Password",
     "timeStamp": 1587574212202
 }
+Fetch All Products 
+GET http://localhost:3004/products
+
+Get Recommendation 
+POST http://localhost:3004/recommendation
