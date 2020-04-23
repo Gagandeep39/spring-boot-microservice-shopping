@@ -33,7 +33,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     private CartItemRepository itemRepository;
 
-
     @Override
     public ShoppingCart updateCart(ShoppingCart cart) {
         return cartRepository.save(cart);
@@ -46,7 +45,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public List<ShoppingCart> fetchCartByUsername(String username) {
-        List<ShoppingCart> usersCart = cartRepository.findByUsername(username);
         return cartRepository.findByUsername(username);
     }
 
@@ -74,11 +72,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart deleteFromCart(Integer id) {
-        logger.info(id.toString() + "Before deleting");
         CartItem item = itemRepository.findById(id).get();
-        logger.info(item.getCart().getCartId() + " Fetching crt ID from item");
         ShoppingCart cart = findCartById(item.getCart().getCartId());
-        logger.info(cart.toString() + "-Fetching item fordeletion");
         itemRepository.delete(item);
         return cart;
     }

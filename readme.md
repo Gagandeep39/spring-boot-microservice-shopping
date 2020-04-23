@@ -2,7 +2,7 @@ Eureka Server Port - 3000
 MVC Application Port - 3001
 Login Service Port - 3002
 Server URL: http://192.168.56.1
-
+------ Product Service ------
 POST http://localhost:3002/register
 Registeration Data
 {
@@ -25,6 +25,7 @@ Error Response
 "message": "Invalid Username Password",
 "timeStamp": 1587574212202
 }
+------ Product Service ------
 FETCH Product
 GET http://localhost:3004/products
 Add Product
@@ -48,11 +49,24 @@ RESPONSE
 "productPrice": 60000.0
 }
 }
-ADD Product Details (Shouldnt be Done)
+ADD Product Details (Shouldnt be Done alone)
+Update Stocks
+POST http://localhost:3004/updatestock
+{
+"productId": 20,
+"stocks": 50,
+"productDetails": {
+"productName": "OnePlus 8",
+"productCategory": "Mobile",
+"productPrice": 60000
+}
+}
 
 
 
-
+------ Cart Service ------
+Crete Cart 
+POST 
 ADD Items To Cart
 POST http://localhost:3003/additem
 customer info is optional as cartitemID itself is unique
