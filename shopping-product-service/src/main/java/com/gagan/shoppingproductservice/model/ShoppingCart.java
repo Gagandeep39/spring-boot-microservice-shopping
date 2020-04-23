@@ -23,12 +23,17 @@ public class ShoppingCart {
     @Column(name = "cart_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer cartId;
+    @Column(name = "cart_status")
+    private String status;
 
-    @OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    /**
+     * **NOTE: Do not use Cascade type.Persist (It implies cascade save)
+     */
+    @OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "username")
     private Customer customer;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
 	@JoinTable(
 			name = "cart_product",
 			joinColumns = @JoinColumn(name = "cart_id"),
@@ -76,12 +81,22 @@ public class ShoppingCart {
         this.customer = customer;
     }
 
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
 
 
     @Override
     public String toString() {
         return "{" +
             " cartId='" + getCartId() + "'" +
+            ", status='" + getStatus() + "'" +
             ", customer='" + getCustomer() + "'" +
             "}";
     }

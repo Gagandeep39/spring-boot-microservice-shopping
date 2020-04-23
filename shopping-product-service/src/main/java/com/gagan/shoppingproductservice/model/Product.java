@@ -26,17 +26,18 @@ public class Product {
     private String productCategory;
     @Column(name = "product_price")
     private double productPrice;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH,
-    CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    @JoinTable(name = "cart_product", joinColumns = @JoinColumn(name =
-    "product_id"), inverseJoinColumns = @JoinColumn(name = "cart_id"))
-    private List<ShoppingCart> carts;
 
-    public void addToCart(ShoppingCart cart){
-    if(carts == null)
-    carts = new ArrayList<>();
-    carts.add(cart);
-    }
+    // @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH,
+    // CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    // @JoinTable(name = "cart_product", joinColumns = @JoinColumn(name =
+    // "product_id"), inverseJoinColumns = @JoinColumn(name = "cart_id"))
+    // private List<ShoppingCart> carts;
+
+    // public void addToCart(ShoppingCart cart){
+    // if(carts == null)
+    // carts = new ArrayList<>();
+    // carts.add(cart);
+    // }
 
     public Product() {
 
@@ -62,13 +63,13 @@ public class Product {
         this.productName = productName;
     }
 
-    public List<ShoppingCart> getCarts() {
-    return this.carts;
-    }
+    // public List<ShoppingCart> getCarts() {
+    // return this.carts;
+    // }
     
-    public void setCarts(List<ShoppingCart> carts) {
-    this.carts = carts;
-    }
+    // public void setCarts(List<ShoppingCart> carts) {
+    // this.carts = carts;
+    // }
 
     public String getProductCategory() {
         return this.productCategory;
