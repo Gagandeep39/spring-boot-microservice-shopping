@@ -53,4 +53,9 @@ public class ManageCartController {
         return service.deleteFromCart(id);
     }
 
+    @GetMapping("/carts/id={id}")
+    public ShoppingCart getCartById(@PathVariable Integer id) {
+        return service.fetchCartById(id);
+    }
+
 }

@@ -83,4 +83,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return cartRepository.findById(id).get();
     }
 
+    @Override
+    public ShoppingCart fetchCartById(Integer id) {
+        return cartRepository.findById(id).get();
+    }
+
 }

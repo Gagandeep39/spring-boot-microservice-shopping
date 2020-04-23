@@ -23,4 +23,5 @@ public interface ShoppingCartService {
     public ShoppingCart addItemToCart(CartItem cartItem);
     public ShoppingCart deleteFromCart(Integer cartItem);
     public ShoppingCart findCartById(Integer id);
+	public ShoppingCart fetchCartById(Integer id);
 }
