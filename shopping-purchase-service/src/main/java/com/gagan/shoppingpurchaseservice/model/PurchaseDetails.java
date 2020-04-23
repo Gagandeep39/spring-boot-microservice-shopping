@@ -14,6 +14,7 @@ public class PurchaseDetails {
 
     @Id
     @Column(name = "purchase_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer purchaseId;
 
     @Column(name = "timestamp")
