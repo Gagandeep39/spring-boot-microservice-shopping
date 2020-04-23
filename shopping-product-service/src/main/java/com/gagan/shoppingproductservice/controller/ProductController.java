@@ -43,9 +43,9 @@ public class ProductController {
      * @return
      */
     @PostMapping(value="/updatestock")
-    public List<Product> updateStocks(@RequestBody Product product) {
+    public Product updateStocks(@RequestBody Product product) {
         productService.updateProduct(product);
-        return productService.fetchAllProducts();
+        return product;
     }
     
 }
