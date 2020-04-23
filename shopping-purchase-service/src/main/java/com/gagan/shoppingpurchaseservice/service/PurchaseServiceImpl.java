@@ -50,9 +50,24 @@ public class PurchaseServiceImpl implements PurchaseService {
         list.stream().forEach(product -> {
             restTemplate.postForObject("http://localhost:3004/products", product, Product.class);
         });
+        PurchaseDetails details = new PurchaseDetails();
+        details.setShoppingCart(cart);
+        details.setAmount((double)calculateAmount(cart));
+        details.setTimestamp(System.currentTimeMillis());
+        repository.save(details);
         cart.setStatus("Completed");
+        return details;
+    }
 
-        return null;
+    int amount = 0;
+    private int calculateAmount(ShoppingCart cart) {
+        amount = 0;
+        cart.getCartItems().forEach(item-> {
+            int quantiy = item.getQuantity();
+            double price = item.getProductDetails().getProductPrice();
+            amount += quantiy*price;
+        });
+        return amount;
     }
 
     @Override
