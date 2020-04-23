@@ -10,11 +10,12 @@ package com.gagan.shoppingproductservice.service;
 import java.util.List;
 
 import com.gagan.shoppingproductservice.model.Product;
-import com.gagan.shoppingproductservice.model.ShoppingCart;
 
 public interface ProductService {
 
+    public void addProduct(Product product);
+    public void updateProduct(Product product);
     public List<Product> fetchAllProducts();
-    public List<Product> fetchRecommendedProduct(ShoppingCart cart);
+    public Product fetchById(Integer productId);
 
 }

@@ -1,24 +1,48 @@
+/**
+ * @author Gagandeep Singh
+ * @email singh.gagandeep3911@gmail.com
+ * @create date 2020-04-23 11:14:12
+ * @modify date 2020-04-23 11:14:12
+ * @desc [description]
+ */
 package com.gagan.shoppingproductservice.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
 
 import com.gagan.shoppingproductservice.model.Product;
-import com.gagan.shoppingproductservice.model.ShoppingCart;
+import com.gagan.shoppingproductservice.repository.ProductDetailsRepository;
 import com.gagan.shoppingproductservice.repository.ProductRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
 
+    private final Logger LOGGER= LoggerFactory.getLogger(ProductServiceImpl.class);
+
+
     @Autowired
     private ProductRepository repository;
+
+    @Autowired
+    private ProductDetailsRepository detailsRepository;
+
+    @Override
+    public void addProduct(Product product) {
+        detailsRepository.save(product.getProductDetails());
+        repository.save(product);
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        detailsRepository.save(product.getProductDetails());
+        repository.save(product);
+    }
 
     @Override
     public List<Product> fetchAllProducts() {
@@ -26,16 +50,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> fetchRecommendedProduct(ShoppingCart cart) {
-        if (cart == null)
-            return new ArrayList<Product>();
-        List<Product> recommendedProducts = fetchAllProducts().stream()
-                .filter(product -> cart.getProducts().stream()
-                        .anyMatch(cartItem -> cartItem.getProductCategory().equals(product.getProductCategory())))
-                .collect(Collectors.toList());
-        if(recommendedProducts.size() > 10)
-            return recommendedProducts.subList(0, 10);
-        return recommendedProducts;
-    };
+    public Product fetchById(Integer productId) {
+        return repository.findById(productId).get();
+    }
 
 }

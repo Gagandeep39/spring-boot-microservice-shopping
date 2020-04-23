@@ -1,50 +1,37 @@
 /**
  * @author Gagandeep Singh
  * @email singh.gagandeep3911@gmail.com
- * @create date 2020-04-22 23:23:23
- * @modify date 2020-04-22 23:23:23
+ * @create date 2020-04-23 11:06:19
+ * @modify date 2020-04-23 11:06:19
  * @desc [description]
  */
 package com.gagan.shoppingproductservice.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "shopping_product")
+@Table(name = "shopping_product_table")
 public class Product {
 
     @Id
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer productId;
-    @Column(name = "product_name")
-    private String productName;
-    @Column(name = "product_category")
-    private String productCategory;
-    @Column(name = "product_price")
-    private double productPrice;
+    @Column(name = "product_stock")
+    private Integer stocks;
 
-    // @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH,
-    // CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    // @JoinTable(name = "cart_product", joinColumns = @JoinColumn(name =
-    // "product_id"), inverseJoinColumns = @JoinColumn(name = "cart_id"))
-    // private List<ShoppingCart> carts;
+    @OneToOne
+    @JoinColumn(name = "product_details_id")
+    private ProductDetails productDetails;
 
-    // public void addToCart(ShoppingCart cart){
-    // if(carts == null)
-    // carts = new ArrayList<>();
-    // carts.add(cart);
-    // }
 
     public Product() {
-
     }
 
-    public Product(String productName) {
-        this.productName = productName;
+    public Product(Integer productId, Integer stocks, ProductDetails productDetails) {
+        this.productId = productId;
+        this.stocks = stocks;
+        this.productDetails = productDetails;
     }
 
     public Integer getProductId() {
@@ -55,43 +42,29 @@ public class Product {
         this.productId = productId;
     }
 
-    public String getProductName() {
-        return this.productName;
+    public Integer getStocks() {
+        return this.stocks;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setStocks(Integer stocks) {
+        this.stocks = stocks;
     }
 
-    // public List<ShoppingCart> getCarts() {
-    // return this.carts;
-    // }
-    
-    // public void setCarts(List<ShoppingCart> carts) {
-    // this.carts = carts;
-    // }
 
-    public String getProductCategory() {
-        return this.productCategory;
+    public ProductDetails getProductDetails() {
+        return productDetails;
     }
 
-    public void setProductCategory(String productCategory) {
-        this.productCategory = productCategory;
-    }
-
-    public double getProductPrice() {
-        return this.productPrice;
-    }
-
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
+    public void setProductDetails(ProductDetails productDetails) {
+        this.productDetails = productDetails;
     }
 
     @Override
     public String toString() {
-        return "{" + " productId='" + getProductId() + "'" + ", productName='" + getProductName() + "'"
-                + ", productCategory='" + getProductCategory() + "'" + ", productPrice='" + getProductPrice() + "'"
-                + "}";
+        return "Product{" +
+                "productId=" + productId +
+                ", stocks=" + stocks +
+                ", productDetails=" + productDetails +
+                '}';
     }
-
 }

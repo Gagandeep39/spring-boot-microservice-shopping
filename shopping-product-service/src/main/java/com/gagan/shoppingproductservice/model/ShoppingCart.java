@@ -7,7 +7,6 @@
  */
 package com.gagan.shoppingproductservice.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -29,27 +28,22 @@ public class ShoppingCart {
     /**
      * **NOTE: Do not use Cascade type.Persist (It implies cascade save)
      */
-    @OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "username")
     private Customer customer;
 
-    @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
-	@JoinTable(
-			name = "cart_product",
-			joinColumns = @JoinColumn(name = "cart_id"),
-			inverseJoinColumns = @JoinColumn(name = "product_id")
-            )
-    private List<Product> products;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems;
 
-    public ShoppingCart() {
-
-    }
+    public ShoppingCart() {}
 
 
-    public void addProductToCart(Product product){
-        if(products == null)
-            products = new ArrayList<>();
-        products.add(product);
+
+    public ShoppingCart(Integer cartId, String status, Customer customer, List<CartItem> cartItems) {
+        this.cartId = cartId;
+        this.status = status;
+        this.customer = customer;
+        this.cartItems = cartItems;
     }
 
     public Integer getCartId() {
@@ -60,27 +54,6 @@ public class ShoppingCart {
         this.cartId = cartId;
     }
 
-    public Customer getCustomer() {
-        return this.customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public List<Product> getProducts() {
-        return this.products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-
-    public ShoppingCart(Customer customer) {
-        this.customer = customer;
-    }
-
     public String getStatus() {
         return this.status;
     }
@@ -89,7 +62,21 @@ public class ShoppingCart {
         this.status = status;
     }
 
+    public Customer getCustomer() {
+        return this.customer;
+    }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public List<CartItem> getCartItems() {
+        return this.cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
 
 
     @Override
