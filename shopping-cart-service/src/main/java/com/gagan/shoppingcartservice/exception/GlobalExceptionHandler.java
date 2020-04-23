@@ -8,7 +8,6 @@
 package com.gagan.shoppingcartservice.exception;
 
 import com.gagan.shoppingcartservice.model.ErrorResponse;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

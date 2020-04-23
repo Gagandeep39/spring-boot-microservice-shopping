@@ -9,31 +9,45 @@ package com.gagan.shoppingcartservice.service;
 
 import java.util.List;
 
+import com.gagan.shoppingcartservice.model.CartItem;
 import com.gagan.shoppingcartservice.model.Customer;
 import com.gagan.shoppingcartservice.model.ShoppingCart;
+import com.gagan.shoppingcartservice.repository.CartItemRepository;
 import com.gagan.shoppingcartservice.repository.ShoppingCartRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-// @Transactional
+@Transactional
 public class ShoppingCartServiceImpl implements ShoppingCartService {
+
+    Logger logger = LoggerFactory.getLogger(ShoppingCartServiceImpl.class);
 
     @Autowired
     private ShoppingCartRepository cartRepository;
 
+    @Autowired
+    private CartItemRepository itemRepository;
+
+
     @Override
     public ShoppingCart updateCart(ShoppingCart cart) {
-        cartRepository.save(cart);
-        return cart;
+        return cartRepository.save(cart);
     }
 
     @Override
-    public List<ShoppingCart> fetchCarts(Customer customer) {
-        // cartRepository.findByUsername(customer.getUsername());
-        List<ShoppingCart> carts = cartRepository.findAll(customer);
-        return carts;
+    public List<ShoppingCart> fetchAllCarts() {
+        return cartRepository.findAll();
+    }
+
+    @Override
+    public List<ShoppingCart> fetchCartByUsername(String username) {
+        List<ShoppingCart> usersCart = cartRepository.findByUsername(username);
+        return cartRepository.findByUsername(username);
     }
 
     @Override
@@ -43,6 +57,35 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         newCart.setCustomer(customer);
         cartRepository.save(newCart);
         return newCart;
+    }
+
+    @Override
+    public ShoppingCart deleteCart(Integer cartId) {
+        ShoppingCart cartItem = cartRepository.findById(cartId).get();
+        cartRepository.delete(cartItem);
+        return cartItem;
+    }
+
+    @Override
+    public ShoppingCart addItemToCart(CartItem cartItem) {
+        itemRepository.save(cartItem);
+        return findCartById(cartItem.getCart().getCartId());
+    }
+
+    @Override
+    public ShoppingCart deleteFromCart(Integer id) {
+        logger.info(id.toString() + "Before deleting");
+        CartItem item = itemRepository.findById(id).get();
+        logger.info(item.getCart().getCartId() + " Fetching crt ID from item");
+        ShoppingCart cart = findCartById(item.getCart().getCartId());
+        logger.info(cart.toString() + "-Fetching item fordeletion");
+        itemRepository.delete(item);
+        return cart;
+    }
+
+    @Override
+    public ShoppingCart findCartById(Integer id) {
+        return cartRepository.findById(id).get();
     }
 
 }

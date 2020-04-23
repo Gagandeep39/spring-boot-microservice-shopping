@@ -1,16 +1,15 @@
 package com.gagan.shoppingcartservice.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import com.gagan.shoppingcartservice.model.CartItem;
+import com.gagan.shoppingcartservice.model.Customer;
+import com.gagan.shoppingcartservice.model.ShoppingCart;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import com.gagan.shoppingcartservice.model.Customer;
-import com.gagan.shoppingcartservice.model.ShoppingCart;
 import com.gagan.shoppingcartservice.service.ShoppingCartService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -19,9 +18,14 @@ public class ManageCartController {
     @Autowired
     private ShoppingCartService service;
 
-    @PostMapping("/carts")
+    @GetMapping("/carts")
     public List<ShoppingCart> fetchAllCarts(){
-        return service.fetchCarts();
+        return service.fetchAllCarts();
+    }
+
+    @GetMapping("/carts/{username}")
+    public List<ShoppingCart> fetchCartsByUsername(@PathVariable String username){
+        return service.fetchCartByUsername(username);
     }
 
     @PostMapping("/update")
@@ -32,6 +36,21 @@ public class ManageCartController {
     @PostMapping("/create")
     public ShoppingCart createCart(@RequestBody Customer customer){
         return service.createCart(customer);
+    }
+
+    @DeleteMapping("/carts/{id}")
+    public ShoppingCart deleteCart(@PathVariable Integer id){
+        return service.deleteCart(id);
+    }
+
+    @PostMapping("/additem")
+    public ShoppingCart addItemToCart(@RequestBody CartItem item){
+        return service.addItemToCart(item);
+    }
+
+    @DeleteMapping("/deleteitem/{id}")
+    public ShoppingCart deleteItemFromCart(@PathVariable Integer id){
+        return service.deleteFromCart(id);
     }
 
 }

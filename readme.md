@@ -50,6 +50,43 @@ RESPONSE
 }
 ADD Product Details (Shouldnt be Done)
 
+
+
+
+ADD Items To Cart
+POST http://localhost:3003/additem
+customer info is optional as cartitemID itself is unique
+{
+    "quantity": 30,
+    "productDetails": {
+        "productDetailsId": 19,
+        "productName": "OnePlus10",
+        "productCategory": "Mobile",
+        "productPrice": 60000
+    },
+    "cart": {
+        "cartId": 15,
+        "status": "Shopping",
+        "customer": {
+            "username": "gagandeep39",
+            "password": "123456",
+            "name": "Gagandeep",
+            "address": "Earth",
+            "email": "test@mail.com",
+            "phoneNumber": "8877665544"
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
 Stock var inside a product
 
 -> \*Universal stock list (Unidirectional from stocks)
