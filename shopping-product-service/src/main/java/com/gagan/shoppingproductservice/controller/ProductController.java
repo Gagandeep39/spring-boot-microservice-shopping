@@ -12,12 +12,8 @@ package com.gagan.shoppingproductservice.controller;
 import java.util.List;
 
 import com.gagan.shoppingproductservice.model.Product;
-import com.gagan.shoppingproductservice.model.ProductDetails;
 import com.gagan.shoppingproductservice.service.ProductService;
 
-import com.gagan.shoppingproductservice.service.ProductServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,4 +37,15 @@ public class ProductController {
         productService.addProduct(product);
         return product;
     }
+    /**
+     * Simply replace old produ with new one and return a list
+     * @param product
+     * @return
+     */
+    @PostMapping(value="/updatestock")
+    public List<Product> updateStocks(@RequestBody Product product) {
+        productService.updateProduct(product);
+        return productService.fetchAllProducts();
+    }
+    
 }
