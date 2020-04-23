@@ -30,3 +30,21 @@ GET http://localhost:3004/products
 
 Get Recommendation 
 POST http://localhost:3004/recommendation
+
+<!-- Add cart Docs -->
+Fetch All carts of a User 
+POST http://localhost:3003/carts
+
+
+
+
+
+
+
+
+
+
+Stock var inside a product 
+
+-> *Universal stock list (Unidirectional from stocks)
+-> 
