@@ -24,7 +24,7 @@ public class CircuitBreakerService {
 
     @HystrixCommand(fallbackMethod = "showErrorMessage")
     public ShoppingCart updateStocks(ShoppingCart cart) throws Exception {
-        ResponseEntity<Product[]> products = restTemplate.getForEntity("http://localhost:3004/products",
+        ResponseEntity<Product[]> products = restTemplate.getForEntity("http://shopping-product-service:3004/products",
                 Product[].class);
         Product[] productList = products.getBody();
         List<Product> list = Arrays.asList(productList);
@@ -41,7 +41,7 @@ public class CircuitBreakerService {
                 throw new Exception("Product Out of Stock");
         }
         list.stream().forEach(product -> {
-            restTemplate.postForObject("http://localhost:3004/products", product, Product.class);
+            restTemplate.postForObject("http://shopping-product-service:3004/products", product, Product.class);
         });
         return cart;
     }
@@ -53,7 +53,7 @@ public class CircuitBreakerService {
 
     @HystrixCommand(fallbackMethod = "showCartErrorMessage")
     public ShoppingCart fetchCartById(Integer cartId) {
-        ShoppingCart cart = restTemplate.getForObject("http://localhost:3003/carts/id=" + cartId, ShoppingCart.class);
+        ShoppingCart cart = restTemplate.getForObject("http://shopping-cart-service:3003/carts/id=" + cartId, ShoppingCart.class);
         return cart;
     }
 
@@ -65,7 +65,7 @@ public class CircuitBreakerService {
     
     @HystrixCommand(fallbackMethod = "showupdateCartStatusError")
 	public ShoppingCart updateCartStatus(ShoppingCart cart) {
-        ShoppingCart updatedCart = restTemplate.postForObject("http://localhost:3003/update", cart, ShoppingCart.class);
+        ShoppingCart updatedCart = restTemplate.postForObject("http://shopping-cart-service:3003/update", cart, ShoppingCart.class);
 		return updatedCart;
     }
     
