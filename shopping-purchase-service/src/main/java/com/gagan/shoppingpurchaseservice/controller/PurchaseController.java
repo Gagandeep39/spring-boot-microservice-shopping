@@ -25,7 +25,7 @@ public class PurchaseController {
         return service.completePurchase(cart);
     }
 
-    @GetMapping("/purchase/{username}")
+    @GetMapping("/purchase/username={username}")
     public List<PurchaseDetails> fetchPurchasesByUsername(@PathVariable String username){
         return service.fetchAllCustomerPurchase(username);
     }
@@ -34,4 +34,10 @@ public class PurchaseController {
     public List<PurchaseDetails> fetchAllPurchases(){
         return service.fetchAllPurchase();
     }
+
+    @GetMapping("/purchase/id={id}")
+    public PurchaseDetails fechDetailsById(@PathVariable Integer id) throws Exception {
+        return service.completePurchaseByCartId(id);
+    }
+
 }

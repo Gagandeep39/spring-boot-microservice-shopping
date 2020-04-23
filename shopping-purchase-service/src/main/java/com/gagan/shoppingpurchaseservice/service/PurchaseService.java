@@ -15,4 +15,5 @@ public interface PurchaseService {
     public PurchaseDetails completePurchase(ShoppingCart cart) throws Exception;
     public List<PurchaseDetails> fetchAllCustomerPurchase(String username);
     public List<PurchaseDetails>  fetchAllPurchase();
+    public PurchaseDetails completePurchaseByCartId(Integer cartId) throws Exception;
 }

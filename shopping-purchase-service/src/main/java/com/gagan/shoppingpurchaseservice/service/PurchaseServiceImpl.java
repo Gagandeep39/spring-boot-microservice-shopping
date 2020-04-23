@@ -1,8 +1,12 @@
 package com.gagan.shoppingpurchaseservice.service;
+
 import com.gagan.shoppingpurchaseservice.model.Product;
 import com.gagan.shoppingpurchaseservice.model.PurchaseDetails;
 import com.gagan.shoppingpurchaseservice.model.ShoppingCart;
 import com.gagan.shoppingpurchaseservice.repository.PurchaseRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,40 +26,31 @@ import java.util.List;
 @Transactional
 public class PurchaseServiceImpl implements PurchaseService {
 
-    // private Logger logger = LoggerFactory.getLogger(PurchaseServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(PurchaseServiceImpl.class);
 
     @Autowired
     private PurchaseRepository repository;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private CircuitBreakerService circuitBreakerService;
 
     @Override
-    public PurchaseDetails completePurchase(ShoppingCart cart)throws Exception {
-        ResponseEntity<Product[]> products = restTemplate.getForEntity("http://localhost:3004/products", Product[].class);
-        Product[] productList = products.getBody();
-        List<Product> list = Arrays.asList(productList);
-        cart.getCartItems().forEach(cartItem -> {
-            list.stream().forEach(product -> {
-                if (product.getProductDetails().getProductDetailsId()==cartItem.getProductDetails().getProductDetailsId()){
-                    product.setStocks(product.getStocks()-cartItem.getQuantity());
-                }
-            });
-        });
+    public PurchaseDetails completePurchase(ShoppingCart shoppingCart)throws Exception {
+        if(shoppingCart.getStatus().equals("Completed")) throw new Exception("Cart has already been checked out");
+        ShoppingCart cart = circuitBreakerService.updateStocks(shoppingCart);
+        if(cart==null) throw new Exception("Unable to communicate to Product service, try again later");
+        return createPurchaseDetails(cart);
+    }
 
-        for (Product p: list) {
-            if (p.getStocks()<0)
-                throw new Exception("Product Out of Stock");
-        }
-        list.stream().forEach(product -> {
-            restTemplate.postForObject("http://localhost:3004/products", product, Product.class);
-        });
+    private PurchaseDetails createPurchaseDetails(ShoppingCart cart) throws Exception {
         PurchaseDetails details = new PurchaseDetails();
-        details.setShoppingCart(cart);
         details.setAmount((double)calculateAmount(cart));
         details.setTimestamp(System.currentTimeMillis());
-        repository.save(details);
         cart.setStatus("Completed");
+        ShoppingCart updatedCart = circuitBreakerService.updateCartStatus(cart);
+        if(updatedCart==null) throw new Exception("Error Communication to Soping Cart service");
+        details.setShoppingCart(updatedCart);
+        repository.save(details);
         return details;
     }
 
@@ -78,5 +73,14 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<PurchaseDetails> fetchAllPurchase() {
         return repository.findAll();
+    }
+
+    @Override
+    public PurchaseDetails completePurchaseByCartId(Integer cartId) throws Exception {
+        ShoppingCart cart = circuitBreakerService.fetchCartById(cartId);
+        if(cart==null) throw new Exception("Error making the purchase using ID, cannot connect to cart service");
+        logger.info(cart.getStatus());
+        if(cart.getStatus().equals("Completed")) throw new Exception("Cart has already been checked out");
+        return createPurchaseDetails(cart);
     }
 }

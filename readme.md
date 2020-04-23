@@ -96,12 +96,5 @@ customer info is optional as cartitemID itself is unique
 
 
 
-
-
-
-
-
-Stock var inside a product
-
--> \*Universal stock list (Unidirectional from stocks)
-->
+# Accss Hystrix Dashboard
+http://localhost:3005/hystrix
