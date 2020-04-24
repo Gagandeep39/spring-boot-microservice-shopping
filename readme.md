@@ -25,7 +25,7 @@ Error Response
 "message": "Invalid Username Password",
 "timeStamp": 1587574212202
 }
------- Product Service ------
+# Product Service 
 FETCH Product
 GET http://localhost:3004/products
 Add Product
@@ -64,7 +64,7 @@ POST http://localhost:3004/updatestock
 
 
 
------- Cart Service ------
+# Cart Service 
 Crete Cart 
 POST 
 ADD Items To Cart
