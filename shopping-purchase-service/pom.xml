@@ -29,6 +29,12 @@
 		</repository>
 	</repositories>
     <dependencies>
+		<!-- H2 Database Support -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
     
 		<!-- Swagger Support -->
 		<!-- io.springfox setup  -->
