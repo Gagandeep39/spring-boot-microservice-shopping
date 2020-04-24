@@ -1,4 +1,4 @@
-package com.gagan.shoppingpurchaseservice.model;
+package com.gagan.shoppingcartservice.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

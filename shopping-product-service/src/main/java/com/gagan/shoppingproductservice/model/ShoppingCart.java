@@ -7,22 +7,38 @@
  */
 package com.gagan.shoppingproductservice.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @OneToOne unidirectional mapping with user
  */
 @Entity
 @Table(name = "shopping_cart")
+@ApiModel(value = "Shopping Cart - The cart in which items must be stored")
 public class ShoppingCart {
 
     @Id
     @Column(name = "cart_id")
+    @ApiModelProperty(value = "Cart Id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer cartId;
     @Column(name = "cart_status")
+    @ApiModelProperty(value = "Cart Status")
     private String status;
 
     /**
@@ -30,14 +46,18 @@ public class ShoppingCart {
      */
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "username")
+    @ApiModelProperty(value = "Cart Reference")
     private Customer customer;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<CartItem> cartItems;
+    @OneToMany(mappedBy = "cart")
+    @ApiModelProperty(value = "Cart Items reference")
+    private List<CartItem> cartItems = new ArrayList<>();
 
     public ShoppingCart() {}
 
-
+    public void addCartItemToCart(CartItem item){
+        cartItems.add(item);
+    }
 
     public ShoppingCart(Integer cartId, String status, Customer customer, List<CartItem> cartItems) {
         this.cartId = cartId;

@@ -7,20 +7,33 @@
  */
 package com.gagan.shoppingpurchaseservice.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Table(name = "shopping_product_details_table")
+@ApiModel(value = "Product Details such as price, category etc")
 public class ProductDetails {
 
     @Id
     @Column(name = "product_details_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(value = "Product Details ID")
     private Integer productDetailsId;
     @Column(name = "product_name")
+    @ApiModelProperty(value = "Product Name")
     private String productName;
     @Column(name = "product_category")
+    @ApiModelProperty(value = "Category Of Product")
     private String productCategory;
     @Column(name = "product_price")
+    @ApiModelProperty(value = "Product Price")
     private double productPrice;
 
     public ProductDetails() {

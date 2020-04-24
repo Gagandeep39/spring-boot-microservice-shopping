@@ -14,6 +14,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Stores User credentials
  * Inherited by Customer 
@@ -22,6 +25,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "shopping_user_table")
 @Inheritance(strategy = InheritanceType.JOINED)
+@ApiModel(value = "User - Store User Credentials")
 public class User {
 
     /**
@@ -29,11 +33,13 @@ public class User {
      */
     @Id
     @Column(name = "username")
+    @ApiModelProperty(value = "Username")
     private String username;
     /**
      * Password
      */
     @Column(name = "password")
+    @ApiModelProperty(value = "Password")
     private String password;
 
     /**

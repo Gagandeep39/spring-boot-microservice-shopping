@@ -11,34 +11,42 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Customer Entity Inheriting from User
  * @see User It stores user credentials
  */
 @Entity
 @PrimaryKeyJoinColumn(name = "username")
+@ApiModel(value = "Customer - Stores Customer Info, extends User")
 public class Customer extends User {
 
     /**
      * Full name of User
      */
     @Column(name = "name")
+    @ApiModelProperty(value = "Name - Name of Customer")
     private String name;
 
     /**
      * Full address
      */
     @Column(name = "address")
+    @ApiModelProperty(value = "Address - Address of User")
     private String address;
 
     /**
      * Full Email ID
      */
+    @ApiModelProperty(value = "Email ID - Email ID of User")
     @Column(name = "email")
     private String email;
     /**
      * Phone  Number
      */
+    @ApiModelProperty(value = "Phone Number - Customer's Contact Number")
     @Column(name = "phone_number")
     private String phoneNumber;
 

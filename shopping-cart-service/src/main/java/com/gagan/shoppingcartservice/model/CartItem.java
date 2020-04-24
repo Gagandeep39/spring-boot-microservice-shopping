@@ -7,13 +7,22 @@
  */
 package com.gagan.shoppingcartservice.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import javax.persistence.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel(value = "Cart Item - To store product detail that was added to cart")
 @Entity
 @Table(name = "shopping_cart_item")
 public class CartItem {
@@ -21,30 +30,28 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "cart_item_id")
+    @ApiModelProperty(value = "Cart Item Id")
     private Integer cartItemId;
     @Column(name = "cart_item_quantity")
+    @ApiModelProperty(value = "Cart Item Quatity Purchased")
     private Integer quantity;
 
     @OneToOne
     @JoinColumn(name = "product_details_id")
+    @ApiModelProperty(value = "Product Details")
     private ProductDetails productDetails;
 
 //    dont use lazy loading to fix thi error
 //    com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @ApiModelProperty(value = "Shopping Cart o which this item belong. It is used for abck refenrece")
     @JsonBackReference
     private ShoppingCart cart;
 
 
     public CartItem() {
     }
-
-//     public CartItem(Integer cartItemId, Integer quantity, Product product) {
-//         this.cartItemId = cartItemId;
-//         this.quantity = quantity;
-//         this.product = product;
-//     }
 
     public Integer getCartItemId() {
         return this.cartItemId;
