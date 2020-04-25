@@ -31,7 +31,7 @@ public class PurchaseDetails {
 
     @Column(name = "timestamp")
     @ApiModelProperty(value = "Timestamp of BillCreation")
-    private Long timestamp;
+    private long timestamp;
 
     @Column(name = "amount")
     @ApiModelProperty(value = "Total Bill Amount")
@@ -50,12 +50,12 @@ public class PurchaseDetails {
         this.purchaseId = purchaseId;
     }
 
-    public Long getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
+    public void setTimestamp(long string) {
+        this.timestamp = string;
     }
 
     public Double getAmount() {

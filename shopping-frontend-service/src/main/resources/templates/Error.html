@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-    <title>index</title>
+    <title>Error Page</title>
 </head>
-<body>
-<!--<p th:text="${hello}"></p>-->
+<body class="container">
+<h2 class="display-2">Error</h2>
+    <h1>An Error Occurred</h1>
+    <br><a th:href="@{/LoginCtrl/login}">Login Screen</a>
 </body>
 </html>

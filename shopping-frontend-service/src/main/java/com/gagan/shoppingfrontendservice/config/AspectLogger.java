@@ -5,7 +5,7 @@
  * @modify date 2020-04-24 12:15:51
  * @desc Logger
  */
-package com.gagan.shoppingproductservice.config;
+package com.gagan.shoppingfrontendservice.config;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -29,18 +29,18 @@ public class AspectLogger {
     public void logBefore(JoinPoint point) {
         logger.debug("@Before class: " + point.getTarget().getClass().getSimpleName());
         logger.debug("@Before method: " + point.getSignature().toShortString());
-        // logger.info("Arguments: ");
-        // Object[] objects = point.getArgs();
-        // for (Object object : objects) {
-        //     System.out.println("->" + object);
-        // }
+         logger.debug("Arguments: ");
+         Object[] objects = point.getArgs();
+         for (Object object : objects) {
+             logger.debug("->" + object);
+         }
     }
 
     @AfterReturning(pointcut = "everyWhere()", returning = "result")
     public void logAfter(JoinPoint point, Object result) {
         logger.debug("@AfterReturning class: " + point.getTarget().getClass().getSimpleName());
         logger.debug("@AfterReturning method: " + point.getSignature().toShortString());
-        // logger.info("Returning Value: " + result);
+         logger.debug("->Returning Value: " + result);
     }
 
 }

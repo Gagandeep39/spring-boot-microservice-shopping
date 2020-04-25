@@ -5,7 +5,7 @@
  * @modify date 2020-04-22 22:16:07
  * @desc [description]
  */
-package com.gagan.shoppingloginservice.model;
+package com.gagan.shoppingfrontendservice.model;
 
 public class ErrorResponse {
 

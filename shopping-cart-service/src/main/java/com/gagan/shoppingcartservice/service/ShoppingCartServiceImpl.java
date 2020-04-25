@@ -35,7 +35,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart updateCart(ShoppingCart cart) {
-        return cartRepository.save(cart);
+        for(int i=0; i<cart.getCartItems().size(); i++) {
+            CartItem item = cart.getCartItems().get(i);
+            itemRepository.save(item);
+            logger.info("--------------Update Cart Item");
+        }
+        ShoppingCart c = cartRepository.save(cart);
+        logger.info(c.toString());
+        return c;
     }
 
     @Override

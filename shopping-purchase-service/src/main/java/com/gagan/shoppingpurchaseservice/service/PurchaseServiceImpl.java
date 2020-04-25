@@ -1,6 +1,5 @@
 package com.gagan.shoppingpurchaseservice.service;
 
-import com.gagan.shoppingpurchaseservice.model.Product;
 import com.gagan.shoppingpurchaseservice.model.PurchaseDetails;
 import com.gagan.shoppingpurchaseservice.model.ShoppingCart;
 import com.gagan.shoppingpurchaseservice.repository.PurchaseRepository;
@@ -8,12 +7,9 @@ import com.gagan.shoppingpurchaseservice.repository.PurchaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,7 +40,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     private PurchaseDetails createPurchaseDetails(ShoppingCart cart) throws Exception {
         PurchaseDetails details = new PurchaseDetails();
-        details.setAmount((double)calculateAmount(cart));
+        details.setAmount(calculateAmount(cart));
+        logger.info(details.getAmount() + "");
         details.setTimestamp(System.currentTimeMillis());
         cart.setStatus("Completed");
         ShoppingCart updatedCart = circuitBreakerService.updateCartStatus(cart);
@@ -54,20 +51,20 @@ public class PurchaseServiceImpl implements PurchaseService {
         return details;
     }
 
-    int amount = 0;
-    private int calculateAmount(ShoppingCart cart) {
-        amount = 0;
-        cart.getCartItems().forEach(item-> {
-            int quantiy = item.getQuantity();
-            double price = item.getProductDetails().getProductPrice();
-            amount += quantiy*price;
-        });
+    private double calculateAmount(ShoppingCart cart) {
+        double amount = 0;
+        for (int i = 0; i < cart.getCartItems().size(); i++) {
+            logger.info("Price: " + cart.getCartItems().get(i).getProductDetails().getProductPrice());
+            amount += cart.getCartItems().get(i).getQuantity() * cart.getCartItems().get(i).getProductDetails().getProductPrice();
+        }
         return amount;
     }
 
     @Override
     public List<PurchaseDetails> fetchAllCustomerPurchase(String username) {
-        return repository.findByUsername(username);
+        List<PurchaseDetails> details = repository.findByUsername(username);
+        logger.debug(details.toString());
+        return details;
     }
 
     @Override
@@ -75,12 +72,4 @@ public class PurchaseServiceImpl implements PurchaseService {
         return repository.findAll();
     }
 
-    @Override
-    public PurchaseDetails completePurchaseByCartId(Integer cartId) throws Exception {
-        ShoppingCart cart = circuitBreakerService.fetchCartById(cartId);
-        if(cart==null) throw new Exception("Error making the purchase using ID, cannot connect to cart service");
-        logger.info(cart.getStatus());
-        if(cart.getStatus().equals("Completed")) throw new Exception("Cart has already been checked out");
-        return createPurchaseDetails(cart);
-    }
 }

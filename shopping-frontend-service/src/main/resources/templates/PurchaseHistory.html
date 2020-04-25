@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <title>Purchase History</title>
 </head>
-<body>
-$END$
+<body class="container">
+<h2 class="display-2">Purchase History</h2>
+<hr>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Date</td>
+            <td>Amount</td>
+        </tr>
+    </thead>
+    <tr th:each="purchase : ${purchases}">
+        <td th:text="${purchase.getPurchaseId()}"></td>
+        <td th:text="${#dates.format(purchase.getTimestamp(), 'dd-MMM-yyyy')}"></td>
+        <td th:text="${purchase.getAmount()}"></td>
+    </tr>
+</table>
+<a th:href="@{/ShoppingCtrl/productcatalog}" class="btn btn-primary">Go to Shopping Page</a>
+<a th:href="@{/home}" class="btn btn-success" style="margin-left: 4px">Show Customer Info</a>
+<a th:href="@{/LoginCtrl/logout}" class="btn btn-danger" style="margin-left: 4px">Log Out</a>
 </body>
 </html>

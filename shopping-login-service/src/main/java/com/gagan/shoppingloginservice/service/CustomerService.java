@@ -15,7 +15,7 @@ import com.gagan.shoppingloginservice.model.User;
  */
 public interface CustomerService {
 
-    public Customer validatCustomer(User user);
+    public Customer validatCustomer(User user) throws Exception;
     public Customer addCustomer(Customer customer);
 
 }

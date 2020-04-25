@@ -33,11 +33,13 @@ public class LoginController {
 
     /**
      * Login Service to validate user
+     * 
      * @param User User credential to be logged in
      * @return User details of the valid user
+     * @throws Exception
      */
     @PostMapping("/login")
-    public User validateUser(@RequestBody User user){
+    public User validateUser(@RequestBody User user) throws Exception {
         Customer customer = service.validatCustomer(user);
         if(customer==null)
             throw new RuntimeException("Invalid Username Password");

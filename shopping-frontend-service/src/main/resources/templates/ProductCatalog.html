@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <title>Product Catalog</title>
 </head>
-<body>
-$END$
+<body class="container">
+<h2 class="display-2">Product List</h2>
+<a th:href="@{/ShoppingCtrl/showcart}" class="btn btn-primary" style="margin-bottom: 12px">Show Cart Items</a>
+<p th:text="${message}"></p>
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
+        <tr>
+            <td>Product Name</td>
+            <td>Product Category</td>
+            <td>Product Price</td>
+            <td>Add To Cart</td>
+        </tr>
+        </thead>
+        <tr th:each="tempProduct : ${products}">
+            <td th:text="${tempProduct.getProductDetails().getProductName()}"></td>
+            <td th:text="${tempProduct.getProductDetails().getProductCategory()}"></td>
+            <td th:text="${tempProduct.getProductDetails().getProductPrice()}"></td>
+            <td>
+                <form th:action="@{|/ShoppingCtrl/addtocart/${tempProduct.getProductId()}|}" method="post">
+                    <button type="submit" class="btn btn-success">Add To Cart</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+<hr>
+
 </body>
 </html>

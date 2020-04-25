@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <title>Cart Items</title>
 </head>
-<body>
-$END$
+<body class="container">
+<h2 class="display-2">Cart Items</h2>
+<a th:href="@{/ShoppingCtrl/productcatalog}" class="btn btn-primary m-1">Back To product Catalog</a>
+<a th:href="@{/ShoppingCtrl/checkout}" class="btn btn-success m-1">Check out</a>
+<div th:if="${cart.getCartItems().size()<=0}">
+    <p class="display-4">Add Something to Cart...</p>
+</div>
+<div th:if="${cart.getCartItems().size()>0}">
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
+        <tr>
+            <td>Product Name</td>
+            <td>Product Category</td>
+            <td>Product Price</td>
+            <td>Remove From Cart</td>
+        </tr>
+        </thead>
+        <tr th:each="item : ${cart.getCartItems()}">
+            <td th:text="${item.getProductDetails().getProductName()}"></td>
+            <td th:text="${item.getProductDetails().getProductCategory()}"></td>
+            <td th:text="${item.getProductDetails().getProductPrice()}"></td>
+            <td>
+                <form th:action="@{|/ShoppingCtrl/removefromcart/${item.getProductDetails().getProductDetailsId()}|}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
 </body>
 </html>

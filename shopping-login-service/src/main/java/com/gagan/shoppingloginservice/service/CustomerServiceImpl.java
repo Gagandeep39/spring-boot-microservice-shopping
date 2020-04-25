@@ -21,11 +21,11 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository repository;
 
     @Override
-    public Customer validatCustomer(User user) {
+    public Customer validatCustomer(User user) throws Exception {
         if (repository.findById(user.getUsername()).isPresent()) {
             return repository.findById(user.getUsername()).get();
         }
-        return null;
+        throw new Exception("Invalid Username or Password");
     }
 
     @Override
