@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static com.gagan.shoppingfrontendservice.config.Helper.currentUser;
 
 
@@ -26,5 +28,11 @@ public class HomeController {
     public String showHome(Model model){
         model.addAttribute("user", currentUser);
         return "Home";
+    }
+
+    @RequestMapping("/previouspage")
+    public String backMapping(HttpServletRequest request){
+        String referer = request.getHeader("Referer");
+        return "redirect:"+ referer;
     }
 }

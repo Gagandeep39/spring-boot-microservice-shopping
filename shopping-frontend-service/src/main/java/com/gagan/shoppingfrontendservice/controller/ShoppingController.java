@@ -37,7 +37,7 @@ public class ShoppingController {
     }
 
     @RequestMapping("/productcatalog")
-    public String showProducts(Model model){
+    public String showProducts(Model model) throws Exception {
         List<Product> newProducts;
                 if(products==null || products.size()<=0)
                     newProducts= productService.fetchAllProducts();

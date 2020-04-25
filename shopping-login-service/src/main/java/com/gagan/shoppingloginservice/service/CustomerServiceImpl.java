@@ -23,9 +23,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer validatCustomer(User user) throws Exception {
         if (repository.findById(user.getUsername()).isPresent()) {
-            return repository.findById(user.getUsername()).get();
+            Customer customer = repository.findById(user.getUsername()).get();
+            if (customer.getPassword().equals(user.getPassword())) {
+                return customer;
+            }
         }
-        throw new Exception("Invalid Username or Password");
+        return null;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.gagan.shoppingpurchaseservice.service;
 import java.util.Arrays;
 import java.util.List;
 
+import com.gagan.shoppingpurchaseservice.model.Customer;
 import com.gagan.shoppingpurchaseservice.model.Product;
 import com.gagan.shoppingpurchaseservice.model.ShoppingCart;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -40,7 +41,6 @@ public class CircuitBreakerService {
             if (p.getStocks() < 0)
                 throw new Exception("Product Out of Stock");
         }
-        Logger.error("Before*************************");
         list.stream().forEach(product -> {
             restTemplate.postForObject("http://localhost:3004/products", product, Product.class);
         });
@@ -71,6 +71,8 @@ public class CircuitBreakerService {
     }
     
     public ShoppingCart showupdateCartStatusError(ShoppingCart cart){
+        cart.setStatus("Error");
+        // cart.setCustomer(new Customer("Cart Service", "Enn", name, address, email, phoneNumber));
         Logger.error("Error making the purchase using Shoppin Cart, cannot connect to cart service");
         return null;
     }

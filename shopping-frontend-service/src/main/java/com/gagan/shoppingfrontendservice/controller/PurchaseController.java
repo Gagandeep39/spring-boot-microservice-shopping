@@ -28,7 +28,7 @@ public class PurchaseController {
     private PurchaseService service;
 
     @GetMapping("/purchasehistory")
-    public String showPurchaseHistory(Model model){
+    public String showPurchaseHistory(Model model) throws Exception {
         List<PurchaseDetails> purchaseDetails = new ArrayList<>();
         if (purchaseDetailsList==null || purchaseDetailsList.size()<=0)
             purchaseDetails = service.showAllBills();
@@ -38,7 +38,7 @@ public class PurchaseController {
     }
 
     @GetMapping("/generatebill")
-    public String showBill(Model model){
+    public String showBill(Model model) throws Exception {
         PurchaseDetails details = service.createPurchase(cart);
         model.addAttribute("purchase", details);
         return "BillingPage";

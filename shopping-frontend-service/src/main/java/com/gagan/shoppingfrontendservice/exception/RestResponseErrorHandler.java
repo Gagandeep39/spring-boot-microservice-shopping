@@ -29,9 +29,10 @@ public class RestResponseErrorHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
-        // System.out.println(response.getStatusText());
-        logger.error("Handle Error: " + response.getBody().toString());
-        // logger.info(response.getBody() + "");
+        if(response.getStatusText().contains("Invalid") ){
+            logger.info("------------------");
+            throw new CustomerNotFoundException ("Invalid username or passwrod");
+        }
 
     }
 

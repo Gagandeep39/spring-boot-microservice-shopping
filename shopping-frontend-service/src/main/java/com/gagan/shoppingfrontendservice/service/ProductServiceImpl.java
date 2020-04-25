@@ -3,6 +3,7 @@ package com.gagan.shoppingfrontendservice.service;
 import com.gagan.shoppingfrontendservice.model.CartItem;
 import com.gagan.shoppingfrontendservice.model.Product;
 import com.gagan.shoppingfrontendservice.model.ShoppingCart;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +41,21 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private CircuitBreakerService breakerService;
+
 
     @Override
-    public List<Product> fetchAllProducts() {
+    public List<Product> fetchAllProducts() throws Exception {
         cart = new ShoppingCart();
         cart.setStatus("Shopping");
         cart.setCustomer(currentUser);
-        products = Arrays.asList(restTemplate.getForEntity(productUrl + "/products", Product[].class).getBody());
+        products = breakerService.fetchFromProductService();
+        if(products==null)throw new Exception("Hysterix: Error Communicating to Product Service");
         return products;
     }
+
+
 
     @Override
     public ShoppingCart addToCart(Integer productId, Integer quantity) {
@@ -77,6 +84,8 @@ public class ProductServiceImpl implements ProductService {
         cart.setCartItems(items);
         return cart;
     }
+
+
 
     @Override
     public ShoppingCart saveCartToServer(ShoppingCart cart) {

@@ -1,6 +1,5 @@
 package com.gagan.shoppingfrontendservice.service;
 
-import com.gagan.shoppingfrontendservice.model.Customer;
 import com.gagan.shoppingfrontendservice.model.Product;
 import com.gagan.shoppingfrontendservice.model.ShoppingCart;
 
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public interface ProductService {
 
-    public List<Product> fetchAllProducts();
+    public List<Product> fetchAllProducts() throws Exception;
     public ShoppingCart addToCart(Integer productId, Integer quantity);
     public ShoppingCart deleteFromCart(Integer productId);
     public ShoppingCart saveCartToServer(ShoppingCart cart);

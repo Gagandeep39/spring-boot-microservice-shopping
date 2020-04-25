@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface PurchaseService {
 
-    public PurchaseDetails createPurchase(ShoppingCart cart);
-    public List<PurchaseDetails> showAllBills();
+    public PurchaseDetails createPurchase(ShoppingCart cart) throws Exception;
+    public List<PurchaseDetails> showAllBills() throws Exception;
 }

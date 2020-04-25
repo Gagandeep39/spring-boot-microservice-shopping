@@ -33,29 +33,9 @@ public class ManageCartController {
         return service.updateCart(cart);
     }
     
-    @PostMapping("/create")
-    public ShoppingCart createCart(@RequestBody Customer customer){
-        return service.createCart(customer);
-    }
-
     @DeleteMapping("/carts/{id}")
     public ShoppingCart deleteCart(@PathVariable Integer id){
         return service.deleteCart(id);
-    }
-
-    @PostMapping("/additem")
-    public ShoppingCart addItemToCart(@RequestBody CartItem item){
-        return service.addItemToCart(item);
-    }
-
-    @DeleteMapping("/deleteitem/{id}")
-    public ShoppingCart deleteItemFromCart(@PathVariable Integer id){
-        return service.deleteFromCart(id);
-    }
-
-    @GetMapping("/carts/id={id}")
-    public ShoppingCart getCartById(@PathVariable Integer id) {
-        return service.fetchCartById(id);
     }
     
 

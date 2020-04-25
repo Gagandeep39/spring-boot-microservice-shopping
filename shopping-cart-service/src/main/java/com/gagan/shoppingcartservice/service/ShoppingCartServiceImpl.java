@@ -38,7 +38,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         for(int i=0; i<cart.getCartItems().size(); i++) {
             CartItem item = cart.getCartItems().get(i);
             itemRepository.save(item);
-            logger.info("--------------Update Cart Item");
         }
         ShoppingCart c = cartRepository.save(cart);
         logger.info(c.toString());
@@ -56,15 +55,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCart createCart(Customer customer) {
-        ShoppingCart newCart = new ShoppingCart();
-        newCart.setStatus("Shopping");
-        newCart.setCustomer(customer);
-        cartRepository.save(newCart);
-        return newCart;
-    }
-
-    @Override
     public ShoppingCart deleteCart(Integer cartId) {
         ShoppingCart cartItem = cartRepository.findById(cartId).get();
         cartRepository.delete(cartItem);
@@ -72,26 +62,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCart addItemToCart(CartItem cartItem) {
-        itemRepository.save(cartItem);
-        return findCartById(cartItem.getCart().getCartId());
-    }
-
-    @Override
-    public ShoppingCart deleteFromCart(Integer id) {
-        CartItem item = itemRepository.findById(id).get();
-        ShoppingCart cart = findCartById(item.getCart().getCartId());
-        itemRepository.delete(item);
-        return cart;
-    }
-
-    @Override
     public ShoppingCart findCartById(Integer id) {
-        return cartRepository.findById(id).get();
-    }
-
-    @Override
-    public ShoppingCart fetchCartById(Integer id) {
         return cartRepository.findById(id).get();
     }
 
