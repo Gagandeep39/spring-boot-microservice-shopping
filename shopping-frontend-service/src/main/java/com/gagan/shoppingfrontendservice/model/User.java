@@ -29,13 +29,13 @@ public class User {
     /**
      * USer name is teh [rimary key]
      */
-    @NotNull
+    @NotNull(message = "Field cannot be empty")
     @Size(min = 4, max = 20, message = "Length must be 4-20")
     private String username;
     /**
      * Password
      */
-    @NotNull
+    @NotNull(message = "Field cannot be empty")
     @Size(min = 4, max = 20, message = "Length must be 4-20")
     private String password;
 

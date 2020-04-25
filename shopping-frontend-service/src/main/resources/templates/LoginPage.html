@@ -25,6 +25,9 @@
                 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert-danger"></p>
 
             </div>
+            <div th:if="${error !=null}">
+                <p class="alert-danger">Invalid username or Password</p>
+            </div>
 
             <input type="submit" value="Login" class="btn btn-primary">
             <a th:href="@{/RegisterCtrl/register}">Register</a>

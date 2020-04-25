@@ -42,7 +42,6 @@ public class LoginController {
             return "LoginPage";
         }else {
             customer = loginService.validateLogin(user);
-            currentUser = customer;
             model.addAttribute("user", currentUser);
             return "redirect:/LoginCtrl/home";
         }

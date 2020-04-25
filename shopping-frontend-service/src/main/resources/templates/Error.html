@@ -7,7 +7,10 @@
 </head>
 <body class="container">
 <h2 class="display-2">Error</h2>
-    <h1>An Error Occurred</h1>
-    <br><a th:href="@{/LoginCtrl/login}">Login Screen</a>
+    <h1 th:text="${'Error code: ' + error.getStatus()}">Error</h1>
+<h4 th:text="${#dates.format(error.getTimeStamp(), 'dd-MMM-yyyy HH:mm:ss')}">Error</h4>
+<p th:text="${'Error Message: ' + error.getMessage()}">Error</p>
+    <br><a style="cursor: pointer" th:onclick="history.go(-1)">Back</a>
+    <br><a th:href="@{/LoginCtrl/logout}">Login Screen</a>
 </body>
 </html>
